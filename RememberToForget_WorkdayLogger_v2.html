@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMEMBER TO FORGET // WORKLOG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* ===== PUNK RETROFUTURIST STYLE ===== */
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-panel: #12121a;
+            --bg-elevated: #1a1a25;
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-lime: #39ff14;
+            --neon-yellow: #ffff00;
+            --neon-red: #ff0033;
+            --neon-purple: #bf00ff;
+            --neon-orange: #ff8800;
+            --pink-glow: rgba(255, 0, 255, 0.4);
+            --cyan-glow: rgba(0, 255, 255, 0.4);
+            --lime-glow: rgba(57, 255, 20, 0.4);
+            --text-primary: #e0e0e0;
+            --text-dim: #888899;
+            --text-bright: #ffffff;
+            --border-width: 2px;
+            --border-width-thick: 4px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body::before {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(255,0,255,0.02) 0px, transparent 1px, transparent 2px, rgba(0,255,255,0.02) 3px, transparent 4px);
+            pointer-events: none; z-index: 9999; opacity: 0.6;
+        }
+        body::after {
+            content: '';
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0px, transparent 1px, transparent 2px);
+            pointer-events: none; z-index: 9998;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+
+        /* ===== HEADER ===== */
+        header {
+            text-align: center; margin-bottom: 2rem; padding: 1.5rem;
+            border: var(--border-width) solid var(--neon-pink);
+            background: var(--bg-panel);
+            box-shadow: 0 0 20px var(--pink-glow), inset 0 0 20px rgba(255,0,255,0.05);
+        }
+        h1 {
+            font-family: 'VT323', monospace;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+            letter-spacing: 0.15em; text-transform: uppercase;
+        }
+        .subtitle {
+            color: var(--neon-cyan); font-size: 0.9rem;
+            letter-spacing: 0.3em; text-shadow: 0 0 10px var(--neon-cyan); margin-top: 0.5rem;
+        }
+
+        /* ===== INPUT SECTION ===== */
+        .input-section {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) { .input-section { grid-template-columns: 1fr; } }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label {
+            color: var(--neon-cyan); font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            margin-bottom: 0.5rem; text-shadow: 0 0 5px var(--neon-cyan);
+        }
+        .input-group input {
+            background: var(--bg-elevated); border: var(--border-width) solid var(--neon-cyan);
+            color: var(--text-bright); padding: 0.75rem 1rem;
+            font-family: 'Share Tech Mono', monospace; font-size: 1rem;
+            outline: none; transition: all 0.3s;
+        }
+        .input-group input:focus { box-shadow: 0 0 15px var(--cyan-glow); border-color: var(--neon-pink); }
+
+        /* ===== BUTTON SECTION ===== */
+        .button-section {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;
+        }
+        @media (max-width: 600px) { .button-section { grid-template-columns: 1fr; } }
+
+        .btn {
+            padding: 1rem 2rem; font-family: 'VT323', monospace; font-size: 1.5rem;
+            text-transform: uppercase; letter-spacing: 0.15em;
+            border: var(--border-width-thick) solid; cursor: pointer;
+            transition: all 0.2s; position: relative; overflow: hidden;
+        }
+        .btn::before { content: '> '; }
+        .btn::after  { content: ' <'; }
+
+        .btn-start {
+            background: linear-gradient(135deg, rgba(57,255,20,0.15), rgba(57,255,20,0.05));
+            border-color: var(--neon-lime); color: var(--neon-lime);
+            text-shadow: 0 0 10px var(--neon-lime); box-shadow: 0 0 20px var(--lime-glow);
+        }
+        .btn-start:hover { background: rgba(57,255,20,0.25); box-shadow: 0 0 30px var(--neon-lime), 0 0 50px var(--lime-glow); transform: translateY(-2px); }
+
+        .btn-end {
+            background: linear-gradient(135deg, rgba(255,0,51,0.15), rgba(255,0,51,0.05));
+            border-color: var(--neon-red); color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red); box-shadow: 0 0 20px rgba(255,0,51,0.4);
+        }
+        .btn-end:hover { background: rgba(255,0,51,0.25); box-shadow: 0 0 30px var(--neon-red), 0 0 50px rgba(255,0,51,0.4); transform: translateY(-2px); }
+
+        .btn-cats {
+            background: linear-gradient(135deg, rgba(255,136,0,0.15), rgba(255,136,0,0.05));
+            border-color: var(--neon-orange); color: var(--neon-orange);
+            text-shadow: 0 0 10px var(--neon-orange); box-shadow: 0 0 20px rgba(255,136,0,0.4);
+            font-size: 1.2rem;
+        }
+        .btn-cats:hover { background: rgba(255,136,0,0.25); box-shadow: 0 0 30px var(--neon-orange); transform: translateY(-2px); }
+
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            background: var(--bg-panel); border: var(--border-width) solid var(--neon-purple);
+            padding: 0.75rem 1rem; margin-bottom: 1.5rem;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
+        }
+        .status-indicator { display: flex; align-items: center; gap: 0.5rem; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; animation: pulse 1.5s infinite; }
+        .status-dot.active { background: var(--neon-lime); box-shadow: 0 0 10px var(--neon-lime); }
+        .status-dot.idle { background: var(--neon-yellow); box-shadow: 0 0 10px var(--neon-yellow); animation: none; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .current-task { color: var(--neon-cyan); }
+
+        /* ===== OUTPUT SECTION ===== */
+        .output-section { background: var(--bg-panel); border: var(--border-width) solid var(--neon-pink); padding: 1rem; }
+        .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap; }
+        .output-header h2 { font-family: 'VT323', monospace; font-size: 1.25rem; color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); letter-spacing: 0.1em; }
+        .output-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+        .btn-copy, .btn-export, .btn-newday {
+            background: transparent; border: var(--border-width) solid;
+            padding: 0.5rem 1rem; font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem; cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+        }
+        .btn-copy { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+        .btn-copy:hover { background: rgba(0,255,255,0.15); box-shadow: 0 0 15px var(--cyan-glow); }
+        .btn-copy.copied { border-color: var(--neon-lime); color: var(--neon-lime); box-shadow: 0 0 15px var(--lime-glow); }
+
+        .btn-export { border-color: var(--neon-lime); color: var(--neon-lime); }
+        .btn-export:hover { background: rgba(57,255,20,0.15); box-shadow: 0 0 15px var(--lime-glow); }
+
+        .btn-newday { border-color: var(--neon-yellow); color: var(--neon-yellow); }
+        .btn-newday:hover { background: rgba(255,255,0,0.1); box-shadow: 0 0 15px rgba(255,255,0,0.4); }
+
+        #worklog-output {
+            width: 100%; min-height: 300px;
+            background: var(--bg-elevated); border: var(--border-width) solid var(--neon-cyan);
+            color: var(--text-primary); padding: 1rem;
+            font-family: 'Share Tech Mono', monospace; font-size: 0.9rem;
+            line-height: 1.6; resize: vertical; outline: none;
+            cursor: default;
+        }
+        #worklog-output[readonly] { opacity: 0.9; }
+
+        /* ===== LIGHTBOX / MODAL ===== */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10,10,15,0.95); display: flex;
+            justify-content: center; align-items: center;
+            z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .lightbox-overlay.active { opacity: 1; visibility: visible; }
+        .lightbox {
+            background: var(--bg-panel); border: var(--border-width-thick) solid var(--neon-pink);
+            box-shadow: 0 0 40px var(--pink-glow), 0 0 80px rgba(255,0,255,0.2);
+            padding: 2rem; max-width: 500px; width: 90%;
+            position: relative; transform: scale(0.95); transition: transform 0.3s;
+        }
+        .lightbox-overlay.active .lightbox { transform: scale(1); }
+        .lightbox-header {
+            text-align: center; margin-bottom: 1.5rem; padding-bottom: 1rem;
+            border-bottom: var(--border-width) solid var(--neon-cyan);
+        }
+        .lightbox-header h2 { font-family: 'VT323', monospace; font-size: 1.75rem; color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); letter-spacing: 0.1em; }
+        .lightbox-body { margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; color: var(--neon-cyan); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .form-group select, .form-group input[type="text"] {
+            width: 100%; background: var(--bg-elevated); border: var(--border-width) solid var(--neon-cyan);
+            color: var(--text-bright); padding: 0.75rem 1rem;
+            font-family: 'Share Tech Mono', monospace; font-size: 1rem; outline: none;
+        }
+        .form-group select option { background: var(--bg-elevated); }
+        .form-group select:focus, .form-group input[type="text"]:focus { box-shadow: 0 0 15px var(--cyan-glow); border-color: var(--neon-pink); }
+
+        .lightbox-footer { display: flex; gap: 1rem; }
+        .lightbox-footer .btn { flex: 1; }
+
+        .btn-commit {
+            background: linear-gradient(135deg, rgba(0,255,255,0.15), rgba(0,255,255,0.05));
+            border-color: var(--neon-cyan); color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        .btn-commit:hover { background: rgba(0,255,255,0.25); box-shadow: 0 0 20px var(--neon-cyan); }
+        .btn-cancel { background: transparent; border-color: var(--text-dim); color: var(--text-dim); }
+        .btn-cancel:hover { border-color: var(--neon-red); color: var(--neon-red); }
+
+        .alert-message {
+            background: rgba(255,0,51,0.1); border: var(--border-width) solid var(--neon-red);
+            padding: 1rem; color: var(--neon-red); text-align: center; margin-bottom: 1rem;
+        }
+
+        /* ===== CATEGORIES LIGHTBOX ===== */
+        .lightbox-cats { border-color: var(--neon-orange); box-shadow: 0 0 40px rgba(255,136,0,0.4), 0 0 80px rgba(255,136,0,0.2); }
+        .lightbox-cats .lightbox-header { border-bottom-color: var(--neon-orange); }
+        .lightbox-cats .lightbox-header h2 { color: var(--neon-orange); text-shadow: 0 0 15px var(--neon-orange); }
+        .cat-add-row { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+        .cat-add-row input {
+            flex: 1; background: var(--bg-elevated); border: var(--border-width) solid var(--neon-orange);
+            color: var(--text-bright); padding: 0.6rem 0.8rem;
+            font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; outline: none;
+        }
+        .cat-add-row input:focus { box-shadow: 0 0 10px rgba(255,136,0,0.4); }
+        .btn-add-cat {
+            background: rgba(255,136,0,0.15); border: var(--border-width) solid var(--neon-orange);
+            color: var(--neon-orange); padding: 0.6rem 1rem;
+            font-family: 'Share Tech Mono', monospace; font-size: 0.85rem;
+            cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+        }
+        .btn-add-cat:hover { background: rgba(255,136,0,0.3); box-shadow: 0 0 10px rgba(255,136,0,0.4); }
+
+        .cat-list { max-height: 250px; overflow-y: auto; border: 1px solid var(--neon-orange); background: var(--bg-elevated); }
+        .cat-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,136,0,0.2);
+            font-size: 0.9rem;
+        }
+        .cat-item:last-child { border-bottom: none; }
+        .cat-item.builtin { color: var(--text-dim); }
+        .cat-item.custom { color: var(--neon-orange); }
+        .cat-delete {
+            background: none; border: none; color: var(--neon-red);
+            cursor: pointer; font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem; padding: 0.2rem 0.4rem; transition: all 0.2s;
+        }
+        .cat-delete:hover { background: rgba(255,0,51,0.15); }
+        .cat-notice { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.75rem; text-align: center; }
+
+        /* Footer */
+        footer { text-align: center; margin-top: 2rem; padding: 1rem; color: var(--text-dim); font-size: 0.75rem; letter-spacing: 0.1em; }
+        .forgetful-notice { color: var(--neon-yellow); text-shadow: 0 0 5px var(--neon-yellow); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WORKDAY LOGBOOK</h1>
+            <div class="subtitle">FORGETFUL TASK TRACKER // NO DATA STORED</div>
+        </header>
+
+        <section class="input-section">
+            <div class="input-group">
+                <label for="input-name">Operator Name</label>
+                <input type="text" id="input-name" placeholder="ENTER NAME">
+            </div>
+            <div class="input-group">
+                <label for="input-org">Organization</label>
+                <input type="text" id="input-org" placeholder="ENTER ORG">
+            </div>
+        </section>
+
+        <section class="button-section">
+            <button class="btn btn-start" id="btn-start">Start Task</button>
+            <button class="btn btn-end" id="btn-end">End Task</button>
+            <button class="btn btn-cats" id="btn-cats">Categories</button>
+        </section>
+
+        <section class="status-bar">
+            <div class="status-indicator">
+                <span class="status-dot idle" id="status-dot"></span>
+                <span id="status-text">IDLE</span>
+            </div>
+            <div class="current-task" id="current-task"></div>
+        </section>
+
+        <section class="output-section">
+            <div class="output-header">
+                <h2>// WORK LOG OUTPUT</h2>
+                <div class="output-btns">
+                    <button class="btn-newday" id="btn-newday">+ New Day</button>
+                    <button class="btn-copy" id="btn-copy">Copy</button>
+                    <button class="btn-export" id="btn-export">Export .md</button>
+                </div>
+            </div>
+            <textarea id="worklog-output" readonly placeholder="Work log will appear here..."></textarea>
+        </section>
+
+        <footer>
+            <p class="forgetful-notice">⚠ DATA IS LOST WHEN TAB CLOSES ⚠</p>
+            <p>Copy or export your worklog before closing this page</p>
+        </footer>
+    </div>
+
+    <!-- Start Task Lightbox -->
+    <div class="lightbox-overlay" id="start-lightbox">
+        <div class="lightbox">
+            <div class="lightbox-header"><h2>> START NEW TASK</h2></div>
+            <div class="lightbox-body">
+                <div class="form-group">
+                    <label for="task-category">Category</label>
+                    <select id="task-category">
+                        <option value="">-- SELECT CATEGORY --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Task Description</label>
+                    <input type="text" id="task-description" placeholder="Describe the task...">
+                </div>
+            </div>
+            <div class="lightbox-footer">
+                <button class="btn btn-commit" id="btn-commit-start">Commit</button>
+                <button class="btn btn-cancel" id="btn-cancel-start">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Task Lightbox -->
+    <div class="lightbox-overlay" id="end-lightbox">
+        <div class="lightbox">
+            <div class="lightbox-header"><h2>> END TASK</h2></div>
+            <div class="lightbox-body" id="end-lightbox-body"></div>
+            <div class="lightbox-footer" id="end-lightbox-footer">
+                <button class="btn btn-commit" id="btn-commit-end">Commit</button>
+                <button class="btn btn-cancel" id="btn-cancel-end">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Lightbox -->
+    <div class="lightbox-overlay" id="cats-lightbox">
+        <div class="lightbox lightbox-cats">
+            <div class="lightbox-header"><h2>> CATEGORIES</h2></div>
+            <div class="lightbox-body">
+                <div class="cat-add-row">
+                    <input type="text" id="new-cat-input" placeholder="NEW-Category">
+                    <button class="btn-add-cat" id="btn-add-cat">+ Add</button>
+                </div>
+                <div class="cat-list" id="cat-list"></div>
+                <p class="cat-notice">⚠ Custom categories are session-only — lost when tab closes</p>
+            </div>
+            <div class="lightbox-footer">
+                <button class="btn btn-cancel" id="btn-close-cats">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== STATE =====
+        let currentTask = null;
+        let days = []; // Array of { date: string, lines: [] }
+        let activeDayIdx = 0;
+
+        // ===== BUILT-IN CATEGORIES =====
+        const builtinCategories = [
+            'EXO-Admin','EXO-Server','SOC-DevOps','SOC-Deployments','SOC-Collabs',
+            'GEN-AdHoc','PMD-Setworks','THS-Admin','THS-Make',
+            'HGH-Dev','HGH-PreProd','HGH-Prod','HGH-ShowTime','HGH-Post','HGH-Release',
+            'TBE-Gaia','TBE-MadSkills','JL-General','JL-Creative',
+            '3SC-Admin','3SC-DevOps','3SC-Deployments','3SC-Make','3SC-Public',
+            'UnCat'
+        ];
+        let customCategories = []; // session-only
+
+        // ===== DOM ELEMENTS =====
+        const inputName        = document.getElementById('input-name');
+        const inputOrg         = document.getElementById('input-org');
+        const btnStart         = document.getElementById('btn-start');
+        const btnEnd           = document.getElementById('btn-end');
+        const btnCats          = document.getElementById('btn-cats');
+        const btnCopy          = document.getElementById('btn-copy');
+        const btnExport        = document.getElementById('btn-export');
+        const btnNewDay        = document.getElementById('btn-newday');
+        const worklogOutput    = document.getElementById('worklog-output');
+        const statusDot        = document.getElementById('status-dot');
+        const statusText       = document.getElementById('status-text');
+        const currentTaskDisp  = document.getElementById('current-task');
+        const startLightbox    = document.getElementById('start-lightbox');
+        const endLightbox      = document.getElementById('end-lightbox');
+        const catsLightbox     = document.getElementById('cats-lightbox');
+        const taskCategory     = document.getElementById('task-category');
+        const taskDescription  = document.getElementById('task-description');
+        const btnCommitStart   = document.getElementById('btn-commit-start');
+        const btnCancelStart   = document.getElementById('btn-cancel-start');
+        const endLightboxBody  = document.getElementById('end-lightbox-body');
+        const btnCommitEnd     = document.getElementById('btn-commit-end');
+        const btnCancelEnd     = document.getElementById('btn-cancel-end');
+        const catList          = document.getElementById('cat-list');
+        const newCatInput      = document.getElementById('new-cat-input');
+        const btnAddCat        = document.getElementById('btn-add-cat');
+        const btnCloseCats     = document.getElementById('btn-close-cats');
+
+        // ===== UTILITIES =====
+        function formatDate(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth()+1).padStart(2,'0');
+            const d = String(date.getDate()).padStart(2,'0');
+            const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+            return `${y}-${m}-${d} - ${days[date.getDay()]}`;
+        }
+
+        function formatTime(date) {
+            return `${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+        }
+
+        function todayKey() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+
+        function calculateDuration(startDate, endDate) {
+            const diffHours = (endDate - startDate) / (1000 * 60 * 60);
+            return Math.round(diffHours * 2) / 2;
+        }
+
+        function updateStatus(active, taskDesc = '') {
+            if (active) {
+                statusDot.classList.replace('idle', 'active');
+                statusText.textContent = 'TASK ACTIVE';
+                currentTaskDisp.textContent = taskDesc;
+            } else {
+                statusDot.classList.replace('active', 'idle');
+                statusText.textContent = 'IDLE';
+                currentTaskDisp.textContent = '';
+            }
+        }
+
+        // ===== DAY MANAGEMENT =====
+        function ensureTodayExists() {
+            const key = todayKey();
+            const existing = days.findIndex(d => d.key === key);
+            if (existing === -1) {
+                days.push({ key, date: formatDate(new Date()), lines: [] });
+                activeDayIdx = days.length - 1;
+                return true; // was new
+            }
+            activeDayIdx = existing;
+            return false;
+        }
+
+        function getActiveDay() {
+            return days[activeDayIdx];
+        }
+
+        // ===== WORKLOG GENERATION =====
+        function generateWorklog() {
+            const name = inputName.value.trim() || 'Unknown';
+            const org  = inputOrg.value.trim()  || 'Unknown';
+
+            let output = '';
+            days.forEach((day, idx) => {
+                if (idx > 0) output += '\n\n---\n\n';
+                output += `${day.date} - ${name} - ${org}\n\n`;
+                output += '| BEGIN | TASK/ACTIVITY | END | HRS |\n';
+                output += '| :-- | :-- | :-- | :-: |\n';
+                day.lines.forEach(line => {
+                    output += `| ${line.start} | ${line.description} | ${line.end} | ${line.hours} |\n`;
+                });
+                // Show in-progress task in the active day
+                if (idx === activeDayIdx && currentTask) {
+                    output += `| ${currentTask.startTime} | ${currentTask.category} - ${currentTask.description} | ... | ... |\n`;
+                }
+            });
+
+            worklogOutput.value = output;
+        }
+
+        // ===== CATEGORY SELECT =====
+        function rebuildCategorySelect() {
+            const current = taskCategory.value;
+            taskCategory.innerHTML = '<option value="">-- SELECT CATEGORY --</option>';
+            const all = [...builtinCategories, ...customCategories];
+            all.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat;
+                opt.textContent = cat;
+                taskCategory.appendChild(opt);
+            });
+            if (current) taskCategory.value = current;
+        }
+
+        function renderCatList() {
+            catList.innerHTML = '';
+            const all = [
+                ...builtinCategories.map(c => ({ name: c, type: 'builtin' })),
+                ...customCategories.map(c => ({ name: c, type: 'custom' }))
+            ];
+            all.forEach(({ name, type }) => {
+                const row = document.createElement('div');
+                row.className = `cat-item ${type}`;
+                row.innerHTML = `<span>${name}</span>`;
+                if (type === 'custom') {
+                    const del = document.createElement('button');
+                    del.className = 'cat-delete';
+                    del.textContent = '[x]';
+                    del.onclick = () => {
+                        customCategories = customCategories.filter(c => c !== name);
+                        rebuildCategorySelect();
+                        renderCatList();
+                    };
+                    row.appendChild(del);
+                }
+                catList.appendChild(row);
+            });
+        }
+
+        // ===== LIGHTBOX CONTROLS =====
+        function openStartLightbox() {
+            taskCategory.value = '';
+            taskDescription.value = '';
+            rebuildCategorySelect();
+            startLightbox.classList.add('active');
+            taskCategory.focus();
+        }
+        function closeStartLightbox() { startLightbox.classList.remove('active'); }
+
+        function openEndLightbox() {
+            if (!currentTask) {
+                endLightboxBody.innerHTML = `
+                    <div class="alert-message">
+                        <strong>NO OPEN TASK EXISTS</strong><br>There is no active task to end.
+                    </div>`;
+                btnCommitEnd.style.display = 'none';
+            } else {
+                const now = new Date();
+                const duration = calculateDuration(currentTask.startDate, now);
+                endLightboxBody.innerHTML = `
+                    <div class="form-group">
+                        <label>Task</label>
+                        <div style="color:var(--neon-cyan);padding:0.5rem;border:1px solid var(--neon-cyan);">
+                            ${currentTask.category} - ${currentTask.description}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Started At</label>
+                        <div style="color:var(--neon-lime);">${currentTask.startTime}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>End Time</label>
+                        <div style="color:var(--neon-red);">${formatTime(now)}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (rounded to 0.5h)</label>
+                        <div style="color:var(--neon-yellow);font-size:1.25rem;">${duration} hours</div>
+                    </div>`;
+                btnCommitEnd.style.display = 'block';
+            }
+            endLightbox.classList.add('active');
+        }
+        function closeEndLightbox() { endLightbox.classList.remove('active'); }
+
+        function openCatsLightbox() {
+            renderCatList();
+            newCatInput.value = '';
+            catsLightbox.classList.add('active');
+            newCatInput.focus();
+        }
+        function closeCatsLightbox() { catsLightbox.classList.remove('active'); }
+
+        // ===== HANDLERS =====
+        btnStart.addEventListener('click', () => {
+            if (!inputName.value.trim() || !inputOrg.value.trim()) {
+                alert('Please enter Name and Organization first.');
+                inputName.focus();
+                return;
+            }
+            // Check if we've rolled into a new day
+            const wasNew = ensureTodayExists();
+            if (wasNew) generateWorklog();
+            openStartLightbox();
+        });
+
+        btnEnd.addEventListener('click', openEndLightbox);
+
+        btnCats.addEventListener('click', openCatsLightbox);
+
+        btnCommitStart.addEventListener('click', () => {
+            const category = taskCategory.value;
+            const description = taskDescription.value.trim();
+            if (!category)     { alert('Please select a category.'); taskCategory.focus(); return; }
+            if (!description)  { alert('Please enter a task description.'); taskDescription.focus(); return; }
+
+            const now = new Date();
+            const day = getActiveDay();
+
+            if (currentTask) {
+                const duration = calculateDuration(currentTask.startDate, now);
+                day.lines.push({
+                    start: currentTask.startTime,
+                    description: `${currentTask.category} - ${currentTask.description} (switched at ${formatTime(now)})`,
+                    end: formatTime(now),
+                    hours: duration
+                });
+            }
+
+            currentTask = { startDate: now, startTime: formatTime(now), category, description };
+            updateStatus(true, `${category} - ${description}`);
+            generateWorklog();
+            closeStartLightbox();
+        });
+
+        btnCancelStart.addEventListener('click', closeStartLightbox);
+
+        btnCommitEnd.addEventListener('click', () => {
+            if (!currentTask) return;
+            const now = new Date();
+            const duration = calculateDuration(currentTask.startDate, now);
+            getActiveDay().lines.push({
+                start: currentTask.startTime,
+                description: `${currentTask.category} - ${currentTask.description}`,
+                end: formatTime(now),
+                hours: duration
+            });
+            currentTask = null;
+            updateStatus(false);
+            generateWorklog();
+            closeEndLightbox();
+        });
+
+        btnCancelEnd.addEventListener('click', closeEndLightbox);
+
+        btnAddCat.addEventListener('click', addCustomCategory);
+        newCatInput.addEventListener('keydown', e => { if (e.key === 'Enter') addCustomCategory(); });
+
+        function addCustomCategory() {
+            const val = newCatInput.value.trim().replace(/\s+/g, '-');
+            if (!val) return;
+            if ([...builtinCategories, ...customCategories].includes(val)) {
+                newCatInput.value = '';
+                return;
+            }
+            customCategories.push(val);
+            rebuildCategorySelect();
+            renderCatList();
+            newCatInput.value = '';
+            newCatInput.focus();
+        }
+
+        btnCloseCats.addEventListener('click', closeCatsLightbox);
+
+        // ===== NEW DAY BUTTON =====
+        btnNewDay.addEventListener('click', () => {
+            if (!inputName.value.trim() || !inputOrg.value.trim()) {
+                alert('Please enter Name and Organization first.');
+                return;
+            }
+            const key = todayKey();
+            // Always add a fresh entry for today even if one exists
+            days.push({ key, date: formatDate(new Date()), lines: [] });
+            activeDayIdx = days.length - 1;
+            currentTask = null;
+            updateStatus(false);
+            generateWorklog();
+        });
+
+        // ===== COPY =====
+        btnCopy.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(worklogOutput.value);
+            } catch {
+                worklogOutput.removeAttribute('readonly');
+                worklogOutput.select();
+                document.execCommand('copy');
+                worklogOutput.setAttribute('readonly', '');
+            }
+            btnCopy.textContent = 'COPIED!';
+            btnCopy.classList.add('copied');
+            setTimeout(() => { btnCopy.textContent = 'Copy'; btnCopy.classList.remove('copied'); }, 2000);
+        });
+
+        // ===== EXPORT MARKDOWN =====
+        btnExport.addEventListener('click', () => {
+            const content = worklogOutput.value;
+            if (!content.trim()) { alert('Nothing to export yet.'); return; }
+            const name = (inputName.value.trim() || 'worklog').replace(/\s+/g, '_');
+            const dateStr = todayKey();
+            const filename = `worklog_${name}_${dateStr}.md`;
+            const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // ===== CLOSE ON OVERLAY CLICK / ESCAPE =====
+        startLightbox.addEventListener('click', e => { if (e.target === startLightbox) closeStartLightbox(); });
+        endLightbox.addEventListener('click',   e => { if (e.target === endLightbox)   closeEndLightbox(); });
+        catsLightbox.addEventListener('click',  e => { if (e.target === catsLightbox)  closeCatsLightbox(); });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') { closeStartLightbox(); closeEndLightbox(); closeCatsLightbox(); }
+        });
+
+        // ===== INIT =====
+        ensureTodayExists();
+        rebuildCategorySelect();
+        generateWorklog();
+    </script>
+</body>
+</html>
